@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFocus.VRIS.Web", "src\eFocus.VRIS.Web\eFocus.VRIS.Web.csproj", "{F8A0476C-47A3-4364-B943-2C7D1CDE9964}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFocus.VRIS.Infrastructure", "src\eFocus.VRIS.Infrastructure\eFocus.VRIS.Infrastructure.csproj", "{3B55572A-0618-4023-98A9-3093580994FF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFocus.VRIS.Core", "src\eFocus.VRIS.Core\eFocus.VRIS.Core.csproj", "{07524C4B-DF79-4470-805D-F0460E35C52B}"
@@ -13,16 +11,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFocus.VRIS.Datasources.Mic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFocus.VRIS.Datasources.Amar2000", "src\Datasources\eFocus.VRIS.Datasources.Amar2000\eFocus.VRIS.Datasources.Amar2000.csproj", "{B365A04E-1552-4E90-BCBE-B8E1EF35BFBB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFocus.VRIS.Web", "src\eFocus.VRIS.Web\eFocus.VRIS.Web.csproj", "{9DB10A94-2F91-4783-8BC2-AF6F2B2340BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F8A0476C-47A3-4364-B943-2C7D1CDE9964}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8A0476C-47A3-4364-B943-2C7D1CDE9964}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8A0476C-47A3-4364-B943-2C7D1CDE9964}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8A0476C-47A3-4364-B943-2C7D1CDE9964}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3B55572A-0618-4023-98A9-3093580994FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3B55572A-0618-4023-98A9-3093580994FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B55572A-0618-4023-98A9-3093580994FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{B365A04E-1552-4E90-BCBE-B8E1EF35BFBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B365A04E-1552-4E90-BCBE-B8E1EF35BFBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B365A04E-1552-4E90-BCBE-B8E1EF35BFBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DB10A94-2F91-4783-8BC2-AF6F2B2340BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DB10A94-2F91-4783-8BC2-AF6F2B2340BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DB10A94-2F91-4783-8BC2-AF6F2B2340BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DB10A94-2F91-4783-8BC2-AF6F2B2340BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

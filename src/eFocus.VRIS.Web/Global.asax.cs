@@ -13,6 +13,7 @@ namespace eFocus.VRIS.Web
     {
         protected void Application_Start()
         {
+            ContainerConfig.Configure();
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

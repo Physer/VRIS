@@ -1,5 +1,8 @@
-﻿@{
+﻿@using eFocus.VRIS.Core.Models
+@{
     ViewBag.Title = "Home Page";
+
+    var token = (AuthToken) ViewBag.Token;
 }
 
 <div class="jumbotron">
@@ -24,8 +27,11 @@
         <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
     </div>
     <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        <h2>Token</h2>
+        <p>AccessToken: @token.AccessToken</p>
+        <p>AccessTokenType: @token.AccessTokenType</p>
+        <p>ExpiresOn: @token.ExpiresOn</p>
+        <p>IdToken: @token.IdToken</p>
+        <p>TenantId: @token.TenantId</p>
     </div>
 </div>
