@@ -7,7 +7,7 @@ namespace eFocus.VRIS.Datasources.MicrosoftGraph.Helpers
         public static string ClientId => ConfigurationManager.AppSettings["ClientID"];
         public static string ClientSecret => ConfigurationManager.AppSettings["ClientSecret"];
 
-        public static string AzureADAuthority = @"https://login.microsoftonline.com/common";
+        public static string AzureADAuthority = @"https://login.microsoftonline.com/eea0e992-9e6d-46ea-a497-9fcf6258cd1c/common";
         public static string LogoutAuthority = @"https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri=";
         public static string O365UnifiedAPIResource = @"https://graph.microsoft.com/";
 

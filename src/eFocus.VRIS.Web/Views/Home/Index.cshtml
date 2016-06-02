@@ -1,14 +1,12 @@
-﻿@using eFocus.VRIS.Core.Models
-@{
+﻿@{
     ViewBag.Title = "Home Page";
-
-    var token = (AuthToken) ViewBag.Token;
 }
 
 <div class="jumbotron">
     <h1>ASP.NET</h1>
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
     <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <p>Sign in to Office 365: </p>@Html.ActionLink("Connect", "Login")
 </div>
 
 <div class="row">
@@ -22,16 +20,18 @@
         <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
     </div>
     <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        @if (ViewBag.UserInfo != null)
+        {
+            <h2>User info: </h2>
+            <p>Name: @ViewBag.UserInfo.Name</p>
+            <p>Address: @ViewBag.UserInfo.Address</p>
+        }
     </div>
     <div class="col-md-4">
-        <h2>Token</h2>
-        <p>AccessToken: @token.AccessToken</p>
-        <p>AccessTokenType: @token.AccessTokenType</p>
-        <p>ExpiresOn: @token.ExpiresOn</p>
-        <p>IdToken: @token.IdToken</p>
-        <p>TenantId: @token.TenantId</p>
+        @if (!string.IsNullOrWhiteSpace(ViewBag.Token))
+        {
+            <h2>Access token: </h2>
+            <p>@ViewBag.Token</p>
+        }
     </div>
 </div>
