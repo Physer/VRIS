@@ -15,11 +15,7 @@ namespace eFocus.VRIS.Web.Models.Data
 
     public class AppointmentMetadata
     {
-        [JsonIgnore]
-        public string AppointmentId { get; set; }
 
-        [JsonIgnore]
-        public string Room { get; set; }
     }
 
     

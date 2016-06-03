@@ -34,7 +34,7 @@ namespace eFocus.VRIS.Web.Controllers
             }
         }
 
-        public IEnumerable<IRoomAvailability> CalculateRoomAvailability(IEnumerable<Appointment> appointments)
+        private IEnumerable<IRoomAvailability> CalculateRoomAvailability(IEnumerable<Appointment> appointments)
         {
             var enumeratedAppointments = appointments as IList<Appointment> ?? appointments.ToList();
             var roomAvailabilities = new List<IRoomAvailability>(enumeratedAppointments);
