@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Labs_AMS_VRISModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AppointmentAttendees">
+          <Key>
+            <PropertyRef Name="AppointmentAttendeeId" />
+          </Key>
+          <Property Name="AppointmentAttendeeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AppointmentId" Type="nvarchar" MaxLength="140" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="IsOrganizer" Type="bit" Nullable="false" />
+          <Property Name="IsRequired" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Appointments">
+          <Key>
+            <PropertyRef Name="AppointmentId" />
+          </Key>
+          <Property Name="AppointmentId" Type="nvarchar" MaxLength="140" Nullable="false" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Room" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="StartUtc" Type="datetime" Nullable="false" />
+          <Property Name="EndUtc" Type="datetime" Nullable="false" />
+          <Property Name="IsAllDay" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AppointmentAttendees_Appointments">
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="1" />
+          <End Role="AppointmentAttendees" Type="Self.AppointmentAttendees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointments">
+              <PropertyRef Name="AppointmentId" />
+            </Principal>
+            <Dependent Role="AppointmentAttendees">
+              <PropertyRef Name="AppointmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Labs_AMS_VRISModelStoreContainer">
+          <EntitySet Name="AppointmentAttendees" EntityType="Self.AppointmentAttendees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Appointments" EntityType="Self.Appointments" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AppointmentAttendees_Appointments" Association="Self.FK_AppointmentAttendees_Appointments">
+            <End Role="Appointments" EntitySet="Appointments" />
+            <End Role="AppointmentAttendees" EntitySet="AppointmentAttendees" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Labs_AMS_VRISModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AppointmentAttendee">
+          <Key>
+            <PropertyRef Name="AppointmentAttendeeId" />
+          </Key>
+          <Property Name="AppointmentAttendeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AppointmentId" Type="String" MaxLength="140" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="IsOrganizer" Type="Boolean" Nullable="false" />
+          <Property Name="IsRequired" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Appointment" Relationship="Self.FK_AppointmentAttendees_Appointments" FromRole="AppointmentAttendees" ToRole="Appointments" />
+        </EntityType>
+        <EntityType Name="Appointment">
+          <Key>
+            <PropertyRef Name="AppointmentId" />
+          </Key>
+          <Property Name="AppointmentId" Type="String" MaxLength="140" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Subject" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Room" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StartUtc" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndUtc" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsAllDay" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AppointmentAttendees" Relationship="Self.FK_AppointmentAttendees_Appointments" FromRole="Appointments" ToRole="AppointmentAttendees" />
+        </EntityType>
+        <Association Name="FK_AppointmentAttendees_Appointments">
+          <End Role="Appointments" Type="Self.Appointment" Multiplicity="1" />
+          <End Role="AppointmentAttendees" Type="Self.AppointmentAttendee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointments">
+              <PropertyRef Name="AppointmentId" />
+            </Principal>
+            <Dependent Role="AppointmentAttendees">
+              <PropertyRef Name="AppointmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CalendarContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AppointmentAttendees" EntityType="Self.AppointmentAttendee" />
+          <EntitySet Name="Appointments" EntityType="Self.Appointment" />
+          <AssociationSet Name="FK_AppointmentAttendees_Appointments" Association="Self.FK_AppointmentAttendees_Appointments">
+            <End Role="Appointments" EntitySet="Appointments" />
+            <End Role="AppointmentAttendees" EntitySet="AppointmentAttendees" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Labs_AMS_VRISModelStoreContainer" CdmEntityContainer="CalendarContext">
+          <EntitySetMapping Name="AppointmentAttendees">
+            <EntityTypeMapping TypeName="Labs_AMS_VRISModel.AppointmentAttendee">
+              <MappingFragment StoreEntitySet="AppointmentAttendees">
+                <ScalarProperty Name="AppointmentAttendeeId" ColumnName="AppointmentAttendeeId" />
+                <ScalarProperty Name="AppointmentId" ColumnName="AppointmentId" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsOrganizer" ColumnName="IsOrganizer" />
+                <ScalarProperty Name="IsRequired" ColumnName="IsRequired" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Appointments">
+            <EntityTypeMapping TypeName="Labs_AMS_VRISModel.Appointment">
+              <MappingFragment StoreEntitySet="Appointments">
+                <ScalarProperty Name="AppointmentId" ColumnName="AppointmentId" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Room" ColumnName="Room" />
+                <ScalarProperty Name="StartUtc" ColumnName="StartUtc" />
+                <ScalarProperty Name="EndUtc" ColumnName="EndUtc" />
+                <ScalarProperty Name="IsAllDay" ColumnName="IsAllDay" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

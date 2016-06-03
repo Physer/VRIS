@@ -17,7 +17,7 @@ namespace eFocus.VRIS.CalendarPushService
     {
         static void Main(string[] args)
         {
-            Application oApp = new Application();
+            var oApp = new Application();
             _mapiNamespace = oApp.GetNamespace("MAPI");
 
             Task.Factory.StartNew(async () =>
@@ -45,8 +45,8 @@ namespace eFocus.VRIS.CalendarPushService
 
             Console.WriteLine("Fetching appointments for AMS 5A");
             var roomAUser = GetUserByName("AMS 5A");
-            Recipient roomARecipient = _mapiNamespace.GetRecipientFromID(roomAUser.ID);
-            MAPIFolder roomACalendar = _mapiNamespace.GetSharedDefaultFolder(roomARecipient, OlDefaultFolders.olFolderCalendar);
+            var roomARecipient = _mapiNamespace.GetRecipientFromID(roomAUser.ID);
+            var roomACalendar = _mapiNamespace.GetSharedDefaultFolder(roomARecipient, OlDefaultFolders.olFolderCalendar);
             rooms.Add(new Room
             {
                 Name = "AMS 5A",
@@ -59,8 +59,8 @@ namespace eFocus.VRIS.CalendarPushService
             Console.WriteLine();
             Console.WriteLine("Fetching appointments for AMS 5B");
             var roomBUser = GetUserByName("AMS 5B");
-            Recipient roomBRecipient = _mapiNamespace.GetRecipientFromID(roomBUser.ID);
-            MAPIFolder roomBCalendar = _mapiNamespace.GetSharedDefaultFolder(roomBRecipient, OlDefaultFolders.olFolderCalendar);
+            var roomBRecipient = _mapiNamespace.GetRecipientFromID(roomBUser.ID);
+            var roomBCalendar = _mapiNamespace.GetSharedDefaultFolder(roomBRecipient, OlDefaultFolders.olFolderCalendar);
             rooms.Add(new Room
             {
                 Name = "AMS 5B",
@@ -83,7 +83,7 @@ namespace eFocus.VRIS.CalendarPushService
 
         private static IEnumerable<Appointment> GetAppointmentsForFolder(MAPIFolder folder)
         {
-            Items outlookCalendarItems = folder.Items;
+            var outlookCalendarItems = folder.Items;
             outlookCalendarItems.IncludeRecurrences = true;
             var filter = $"[Start] >= '{DateTime.UtcNow.AddDays(-1).ToString("g")}'";
             outlookCalendarItems = outlookCalendarItems.Restrict(filter);
@@ -96,16 +96,15 @@ namespace eFocus.VRIS.CalendarPushService
 
                 if (item.IsRecurring)
                 {
-                    RecurrencePattern rp = item.GetRecurrencePattern();
+                    var rp = item.GetRecurrencePattern();
                     var yesterday = DateTime.Today.AddDays(-1);
-                    DateTime first = new DateTime(yesterday.Year, yesterday.Month, yesterday.Day, item.Start.Hour,
-                        item.Start.Minute, 0);
+                    var first = new DateTime(yesterday.Year, yesterday.Month, yesterday.Day, item.Start.Hour, item.Start.Minute, 0);
 
-                    DateTime last = DateTime.Today.AddMonths(1);
+                    var last = DateTime.Today.AddMonths(1);
 
                     AppointmentItem recur = null;
 
-                    for (DateTime cur = first; cur <= last; cur = cur.AddDays(1))
+                    for (var cur = first; cur <= last; cur = cur.AddDays(1))
                     {
                         try
                         {
@@ -137,19 +136,7 @@ namespace eFocus.VRIS.CalendarPushService
         private static Appointment BuildAppointment(AppointmentItem item, TimeSpan recurrenceOffset)
         {
             var organizer = item.GetOrganizer();
-
-            var attendees = new List<Attendee>
-            {
-                new Attendee()
-                {
-                    Name = organizer.Name,
-                    Email = GetEmailAddress(organizer.PropertyAccessor),
-                    IsOrganizer = true,
-                    IsRequired = true,
-                }
-            };
-
-            Marshal.ReleaseComObject(organizer);
+            var attendees = new List<Attendee>();
 
             foreach (Recipient recipient in item.Recipients)
             {
@@ -157,9 +144,10 @@ namespace eFocus.VRIS.CalendarPushService
                 {
                     Name = recipient.Name,
                     Email = GetEmailAddress(recipient.PropertyAccessor),
-                    IsOrganizer = false,
                     IsRequired = IsRecipientRequired(recipient),
                 };
+
+                attendee.IsOrganizer = attendee.Email == GetEmailAddress(organizer.PropertyAccessor);
 
                 if (!attendees.Any(x => x.Email.Equals(attendee.Email, StringComparison.InvariantCultureIgnoreCase)))
                     attendees.Add(attendee);
@@ -167,8 +155,11 @@ namespace eFocus.VRIS.CalendarPushService
                 Marshal.ReleaseComObject(recipient);
             }
 
+            Marshal.ReleaseComObject(organizer);
+
             var appointment = new Appointment()
             {
+                Id = item.EntryID,
                 Subject = item.Subject,
                 StartUtc = item.StartUTC + recurrenceOffset,
                 EndUtc = item.EndUTC + recurrenceOffset,
@@ -181,7 +172,7 @@ namespace eFocus.VRIS.CalendarPushService
 
         private static string GetEmailAddress(PropertyAccessor propertyAccessor)
         {
-            string PROPERTY_TAG_SMTP_ADDRESS = @"http://schemas.microsoft.com/mapi/proptag/0x39FE001E";
+            const string PROPERTY_TAG_SMTP_ADDRESS = @"http://schemas.microsoft.com/mapi/proptag/0x39FE001E";
 
             return propertyAccessor.GetProperty(PROPERTY_TAG_SMTP_ADDRESS);
         }

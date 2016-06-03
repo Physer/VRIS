@@ -4,6 +4,7 @@ namespace eFocus.VRIS.Core.Models.CalendarImport
     {
         public string Name { get; set; }
         public string Email { get; set; }
+        public string Organization { get; set; }
         public bool IsOrganizer { get; set; }
         public bool IsRequired { get; set; }
     }
