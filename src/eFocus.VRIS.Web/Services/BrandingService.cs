@@ -27,7 +27,7 @@ namespace eFocus.VRIS.Web.Services
             return new Organization
             {
                 Name = "eFocus",
-                LogoUrl = "http://www.sugnl.net/~/media/SUGNL/Meetings/Meeting%2010%20december%202014%20eFocus/efocus.png"
+                LogoUrl = GetOrganizationLogo("efocus")
             };
         }
 
@@ -35,8 +35,8 @@ namespace eFocus.VRIS.Web.Services
         {
             using (var context = new CalendarContext())
             {
-                var organization = context.Organizations.FirstOrDefault(x => x.Name.ToLower().Equals(organizationName.ToLower()));
-                return organization != null ? organization.LogoUrl : "http://www.sugnl.net/~/media/SUGNL/Meetings/Meeting%2010%20december%202014%20eFocus/efocus.png";
+                var organization = context.Organizations.FirstOrDefault(x => x.Name.Equals(organizationName, StringComparison.InvariantCultureIgnoreCase));
+                return organization != null ? organization.LogoUrl : string.Empty;
             }
         }
 
