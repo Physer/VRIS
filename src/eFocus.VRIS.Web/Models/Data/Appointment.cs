@@ -26,6 +26,8 @@ namespace eFocus.VRIS.Web.Models.Data
         public System.DateTime StartUtc { get; set; }
         public System.DateTime EndUtc { get; set; }
         public bool IsAllDay { get; set; }
+        public bool AddOnSync { get; set; }
+        public bool CreatedByVris { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AppointmentAttendee> AppointmentAttendees { get; set; }

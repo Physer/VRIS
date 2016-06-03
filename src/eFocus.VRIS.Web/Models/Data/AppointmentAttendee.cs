@@ -20,7 +20,6 @@ namespace eFocus.VRIS.Web.Models.Data
         public string Name { get; set; }
         public bool IsOrganizer { get; set; }
         public bool IsRequired { get; set; }
-
     
         public virtual Appointment Appointment { get; set; }
     }

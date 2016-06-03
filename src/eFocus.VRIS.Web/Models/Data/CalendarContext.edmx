@@ -26,6 +26,8 @@
           <Property Name="StartUtc" Type="datetime" Nullable="false" />
           <Property Name="EndUtc" Type="datetime" Nullable="false" />
           <Property Name="IsAllDay" Type="bit" Nullable="false" />
+          <Property Name="AddOnSync" Type="bit" Nullable="false" />
+          <Property Name="CreatedByVris" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Organization">
           <Key>
@@ -85,6 +87,8 @@
           <Property Name="EndUtc" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsAllDay" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="AppointmentAttendees" Relationship="Self.FK_AppointmentAttendees_Appointments" FromRole="Appointments" ToRole="AppointmentAttendees" />
+          <Property Name="AddOnSync" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedByVris" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_AppointmentAttendees_Appointments">
           <End Role="Appointments" Type="Self.Appointment" Multiplicity="1" />
@@ -136,6 +140,8 @@
           <EntitySetMapping Name="Appointments">
             <EntityTypeMapping TypeName="Labs_AMS_VRISModel.Appointment">
               <MappingFragment StoreEntitySet="Appointments">
+                <ScalarProperty Name="CreatedByVris" ColumnName="CreatedByVris" />
+                <ScalarProperty Name="AddOnSync" ColumnName="AddOnSync" />
                 <ScalarProperty Name="AppointmentId" ColumnName="AppointmentId" />
                 <ScalarProperty Name="Subject" ColumnName="Subject" />
                 <ScalarProperty Name="Room" ColumnName="Room" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -82,6 +83,32 @@ namespace eFocus.VRIS.Web.Controllers
             }
 
             return roomAvailabilities.OrderBy(x => x.StartUtc);
+        }
+
+        [HttpPost]
+        public IHttpActionResult Post([FromBody] Appointment appointment)
+        {
+            try
+            {
+                using (var context = new CalendarContext())
+                {
+                    appointment.AppointmentId = Guid.NewGuid().ToString();
+
+                    if (string.IsNullOrWhiteSpace(appointment.Subject))
+                        appointment.Subject = "VRIS";
+
+                    appointment.AddOnSync = true;
+                    appointment.CreatedByVris = true;
+
+                    context.Appointments.Add(appointment);
+                    context.SaveChanges();
+                }
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                return Content(HttpStatusCode.BadRequest, exception.Message);
+            }
         }
     }
 }
