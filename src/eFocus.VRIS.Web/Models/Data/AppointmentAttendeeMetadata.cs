@@ -6,6 +6,8 @@ namespace eFocus.VRIS.Web.Models.Data
     [MetadataType(typeof(AppointmentAttendeeMetadata))]
     public partial class AppointmentAttendee
     {
+        public string FirstName => Name.Split(' ')[0].Trim();
+        public string LastName => Name.Replace(FirstName, "").Trim();
     }
 
     public class AppointmentAttendeeMetadata

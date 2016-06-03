@@ -26,7 +26,7 @@ namespace eFocus.VRIS.CalendarPushService
                 {
                     await PostAllCalendarItems();
 
-                    var delay = TimeSpan.FromMinutes(5);
+                    var delay = TimeSpan.FromSeconds(30);
                     
                     Console.WriteLine();
                     Console.WriteLine($"Sleeping for {delay} until next sync");

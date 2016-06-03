@@ -12,16 +12,10 @@ namespace eFocus.VRIS.Web.Models.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class AppointmentAttendee
+    public partial class Organization
     {
-        public int AppointmentAttendeeId { get; set; }
-        public string AppointmentId { get; set; }
-        public string Email { get; set; }
+        public int OrganizationId { get; set; }
         public string Name { get; set; }
-        public bool IsOrganizer { get; set; }
-        public bool IsRequired { get; set; }
-
-    
-        public virtual Appointment Appointment { get; set; }
+        public string LogoUrl { get; set; }
     }
 }

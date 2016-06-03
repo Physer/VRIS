@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using eFocus.VRIS.Core.Models;
 using eFocus.VRIS.Core.Repositories;
+using eFocus.VRIS.Web.Models.Data;
+using eFocus.VRIS.Web.Models.ViewModels;
+using eFocus.VRIS.Web.Services;
+using Organization = eFocus.VRIS.Core.Models.Branding.Organization;
 
 namespace eFocus.VRIS.Web.Controllers
 {
@@ -21,6 +24,15 @@ namespace eFocus.VRIS.Web.Controllers
 
         public async Task<ActionResult> Index()
         {
+            var organizationList = new List<Organization>();
+            using (var context = new CalendarContext())
+            {
+                organizationList.AddRange(context.Organizations.Select(organization => new Organization
+                {
+                    Name = organization.Name, LogoUrl = organization.LogoUrl
+                }));
+            }
+            List<SelectListItem> selectListItems = BuildSelectListItems(organizationList);
             var accessToken = Session["AccessToken"];
             if (accessToken != null)
             {
@@ -28,7 +40,24 @@ namespace eFocus.VRIS.Web.Controllers
                 ViewBag.UserInfo = await _calenderRepository.GetUserInfoAsync(accessToken as string);
             }
 
-            return View();
+            return View(new OrganizationViewModel
+            {
+                DropdownItems = selectListItems
+            });
+        }
+
+        private List<SelectListItem> BuildSelectListItems(List<Organization> organizationList)
+        {
+            return organizationList.Select(organization => new SelectListItem
+            {
+                Text = organization.Name, Value = organization.Name
+            }).ToList();
+        }
+
+        public ActionResult Save(OrganizationViewModel model)
+        {
+            BrandingService.UpdateLogo(model.OrganizationName, model.LogoUrl);
+            return Redirect("/");
         }
 
         public async Task<ActionResult> Login()

@@ -27,5 +27,6 @@ namespace eFocus.VRIS.Web.Models.Data
     
         public virtual DbSet<AppointmentAttendee> AppointmentAttendees { get; set; }
         public virtual DbSet<Appointment> Appointments { get; set; }
+        public virtual DbSet<Organization> Organizations { get; set; }
     }
 }

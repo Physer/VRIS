@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Labs_AMS_VRISModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Labs_AMS_VRISModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AppointmentAttendees">
           <Key>
             <PropertyRef Name="AppointmentAttendeeId" />
@@ -27,8 +27,18 @@
           <Property Name="EndUtc" Type="datetime" Nullable="false" />
           <Property Name="IsAllDay" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Organization">
+          <Key>
+            <PropertyRef Name="OrganizationId" />
+          </Key>
+          <Property Name="OrganizationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="LogoUrl" Type="nvarchar(max)" />
+        </EntityType>
         <Association Name="FK_AppointmentAttendees_Appointments">
-          <End Role="Appointments" Type="Self.Appointments" Multiplicity="1" />
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="AppointmentAttendees" Type="Self.AppointmentAttendees" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Appointments">
@@ -42,13 +52,13 @@
         <EntityContainer Name="Labs_AMS_VRISModelStoreContainer">
           <EntitySet Name="AppointmentAttendees" EntityType="Self.AppointmentAttendees" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Appointments" EntityType="Self.Appointments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Organization" EntityType="Self.Organization" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_AppointmentAttendees_Appointments" Association="Self.FK_AppointmentAttendees_Appointments">
             <End Role="Appointments" EntitySet="Appointments" />
             <End Role="AppointmentAttendees" EntitySet="AppointmentAttendees" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Labs_AMS_VRISModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -95,7 +105,16 @@
             <End Role="Appointments" EntitySet="Appointments" />
             <End Role="AppointmentAttendees" EntitySet="AppointmentAttendees" />
           </AssociationSet>
+          <EntitySet Name="Organizations" EntityType="Labs_AMS_VRISModel.Organization" />
         </EntityContainer>
+        <EntityType Name="Organization">
+          <Key>
+            <PropertyRef Name="OrganizationId" />
+          </Key>
+          <Property Name="OrganizationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LogoUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -123,6 +142,15 @@
                 <ScalarProperty Name="StartUtc" ColumnName="StartUtc" />
                 <ScalarProperty Name="EndUtc" ColumnName="EndUtc" />
                 <ScalarProperty Name="IsAllDay" ColumnName="IsAllDay" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Organizations">
+            <EntityTypeMapping TypeName="Labs_AMS_VRISModel.Organization">
+              <MappingFragment StoreEntitySet="Organization">
+                <ScalarProperty Name="LogoUrl" ColumnName="LogoUrl" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
